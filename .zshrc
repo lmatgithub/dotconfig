@@ -85,15 +85,8 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
-alias bat=batcat
-alias cat=batcat
-alias c=code
+alias cat=bat
 alias vim=nvim
-alias n=nvim
 alias shad="bunx --bun shadcn@latest"
 alias s="$aliases[shad]"
 alias shadcanary="bunx --bun shadcn@canary"
