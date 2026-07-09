@@ -109,23 +109,9 @@ export NVM_DIR="$HOME/.nvm"
 export PATH=$HOME/.local/bin:$PATH
 PATH=~/.console-ninja/.bin:$PATH
 
-# deno stuff
-export DENO_INSTALL="$HOME/.deno"
-export PATH="$DENO_INSTALL/bin:$PATH"
-. "$HOME/.deno/env"
-# deno stuff end
-
 fpath=(~/.zsh $fpath)
 autoload -Uz compinit
 compinit -u
-
-# pnpm
-export PNPM_HOME="$HOME/.local/share/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-# pnpm end
 
 # bun completions
 [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
@@ -143,10 +129,6 @@ export PATH=$PATH:/usr/local/go/bin
 # true color for WT/WSL2
 export COLORTERM=truecolor
 # true color for WT/WSL2 end
-
-# rust stuff
-. "$HOME/.cargo/env"
-# rust stuff end
 
 # nextjs default port
 export PORT="5469"
