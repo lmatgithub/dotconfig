@@ -77,9 +77,11 @@ zstyle ':omz:update' mode auto      # update automatically without asking
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-syntax-highlighting tmux zsh-autosuggestions)
+plugins=(git tmux zsh-autosuggestions)
 
 ZSH_TMUX_AUTOSTART=true
+
+fpath=(~/.zsh $fpath)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -87,9 +89,10 @@ source $ZSH/oh-my-zsh.sh
 
 # [ ALIAS ]
 
-alias c=nvim
-alias cat=bat
+alias claude="caveman claude"
 alias vim=nvim
+alias c=code
+alias cat=bat
 alias shad="bunx --bun shadcn@latest"
 alias s="$aliases[shad]"
 alias shadcanary="bunx --bun shadcn@canary"
@@ -104,10 +107,6 @@ export NVM_DIR="$HOME/.nvm"
 
 export PATH=$HOME/.local/bin:$PATH
 PATH=~/.console-ninja/.bin:$PATH
-
-fpath=(~/.zsh $fpath)
-autoload -Uz compinit
-compinit -u
 
 # bun completions
 [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
