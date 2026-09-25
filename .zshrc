@@ -102,3 +102,6 @@ export PATH="$HOME/.npm-global/bin:$HOME/.local/bin:$PATH"
 # true color for WT/WSL2
 export COLORTERM=truecolor
 # true color for WT/WSL2 end
+
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
