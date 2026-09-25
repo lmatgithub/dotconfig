@@ -90,43 +90,15 @@ source $ZSH/oh-my-zsh.sh
 # [ ALIAS ]
 
 alias claude="caveman claude"
-alias vim=nvim
 alias c=code
-alias cat=bat
-alias shad="bunx --bun shadcn@latest"
-alias s="$aliases[shad]"
-alias shadcanary="bunx --bun shadcn@canary"
-alias sc="$aliases[shadcanary]"
+(( $+commands[nvim] )) && alias vim=nvim
+(( $+commands[bat] )) && alias cat=bat
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-export PATH=$HOME/.local/bin:$PATH
-PATH=~/.console-ninja/.bin:$PATH
-
-# bun completions
-[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
-# bun completions end
-
-# bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
-# bun end
-
-# go stuff
-export PATH=$PATH:/usr/local/go/bin
-# go stuff end
+export PATH="$HOME/.npm-global/bin:$HOME/.local/bin:$PATH"
 
 # true color for WT/WSL2
 export COLORTERM=truecolor
 # true color for WT/WSL2 end
-
-# nextjs default port
-export PORT="5469"
-
-# put app images in $HOME/apps on the $PATH
-export PATH="$PATH:$HOME/apps"
