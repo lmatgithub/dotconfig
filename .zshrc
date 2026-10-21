@@ -144,5 +144,5 @@ export PORT="5469"
 # put app images in $HOME/apps on the $PATH
 export PATH="$PATH:$HOME/apps"
 # vscode-server remote-cli (newest install; absent until Remote-WSL first connects)
-_vscode_bin=("$HOME"/.vscode-server/bin/*(/omN[1])) && (( $#_vscode_bin )) && export PATH="$PATH:${_vscode_bin[1]}bin/remote-cli"
+_vscode_bin=("$HOME"/.vscode-server/bin/*(/omN[1])) && (( $#_vscode_bin )) && export PATH="${_vscode_bin[1]}/bin/remote-cli:$PATH"
 unset _vscode_bin
