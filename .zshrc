@@ -79,7 +79,17 @@ zstyle ':omz:update' mode auto      # update automatically without asking
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git tmux zsh-autosuggestions)
 
-ZSH_TMUX_AUTOSTART=true
+# Terminal windows outside tmux get their own view instead of the oh-my-zsh
+# autostart (which attaches every window to the same session and so the same
+# current tmux window). A view is a grouped session: it shares the base
+# session's windows but keeps its own current window. destroy-unattached
+# removes the view when its terminal window closes.
+ZSH_TMUX_AUTOSTART=false
+if (( $+commands[tmux] )) && [[ -z $TMUX && -z $INSIDE_EMACS && -z $EMACS && -z $VIM && -z $INTELLIJ_ENVIRONMENT_READER && -z $ZED_TERM ]]; then
+  _tmux_base=$(command tmux list-sessions -F '#{session_name}' 2>/dev/null | grep -v '^view-' | head -1)
+  [[ -n $_tmux_base ]] || { _tmux_base=main; command tmux new-session -d -s $_tmux_base }
+  exec $commands[tmux] new-session -t "=$_tmux_base" -s "view-$$" \; set-option destroy-unattached on
+fi
 
 fpath=(~/.zsh $fpath)
 
@@ -133,4 +143,3 @@ export PORT="5469"
 
 # put app images in $HOME/apps on the $PATH
 export PATH="$PATH:$HOME/apps"
-export PATH="$PATH:$(command ls -td "$HOME"/.vscode-server/bin/*/ 2>/dev/null | head -1)bin/remote-cli"

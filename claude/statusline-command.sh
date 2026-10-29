@@ -6,7 +6,7 @@
 #
 # Configured via ~/.claude/settings.json -> statusLine.command
 
-CAVEMAN_SCRIPT="/home/jnx/.claude/plugins/marketplaces/caveman/src/hooks/caveman-statusline.sh"
+CAVEMAN_SCRIPT="$HOME/.claude/plugins/marketplaces/caveman/src/hooks/caveman-statusline.sh"
 
 INPUT=$(cat)
 

@@ -5,7 +5,6 @@ local config = {}
 local key_bindings = {}
 local launch_menu = {}
 
-local wsl_distro = 'archlinux'
 local is_windows = wezterm.target_triple:find 'windows' ~= nil
 
 -- Every window inherits WezTerm's own elevation, so check it once per launch.
@@ -29,34 +28,6 @@ if wezterm.config_builder then
     config = wezterm.config_builder()
 end
 
--- Open a new WezTerm window that views one window of the running tmux
--- session. The view is a grouped session: it shares the windows but keeps
--- its own current window, and it is destroyed when its WezTerm window
--- closes. $1 is the window index; if it is empty or wrong, the script lists
--- the windows and asks again.
-local tmux_view_script = [[
-sessions=$(tmux list-sessions -F '#{session_name}' 2>/dev/null | grep -v '^view-')
-if [ -z "$sessions" ]; then
-  echo 'No tmux session is running.'; read -r _; exit 1
-fi
-if [ "$(printf '%s\n' "$sessions" | wc -l)" -eq 1 ]; then
-  session=$sessions
-else
-  printf '%s\n' "$sessions" | nl -w2 -s') '
-  printf 'Session number: '; read -r n || exit 1
-  case $n in *[!0-9]*|'') exit 1 ;; esac
-  session=$(printf '%s\n' "$sessions" | sed -n "${n}p")
-  [ -n "$session" ] || exit 1
-fi
-index=$1
-until tmux list-windows -t "=$session" -F '#{window_index}' | grep -qxF -- "$index"; do
-  tmux list-windows -t "=$session" -F '#{window_index}: #{window_name}'
-  printf 'Window index: '; read -r index || exit 1
-done
-view="view-$$"
-exec tmux new-session -t "=$session" -s "$view" \; set-option destroy-unattached on \; select-window -t "=$view:$index"
-]]
-
 key_bindings = {{
     key = 'Insert',
     mods = 'SHIFT',
@@ -69,20 +40,6 @@ key_bindings = {{
     key = "F11",
     mods = "",
     action = act.ToggleFullScreen
-}, {
-    -- Alt-Shift-n: view a tmux window in a new WezTerm window.
-    key = 'N',
-    mods = 'ALT|SHIFT',
-    action = wezterm.action.PromptInputLine {
-        description = 'tmux window index to view (Enter to pick from a list):',
-        action = wezterm.action_callback(function(window, pane, line)
-            if line == nil then return end -- Esc cancels
-            window:perform_action(wezterm.action.SpawnCommandInNewWindow {
-                domain = { DomainName = 'WSL:' .. wsl_distro },
-                args = { 'sh', '-c', tmux_view_script, 'sh', line },
-            }, pane)
-        end),
-    },
 }}
 
 -- terminal appearence
